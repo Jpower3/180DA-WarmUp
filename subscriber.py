@@ -17,8 +17,12 @@ def on_disconnect(client, userdata, rc):
 # (you can create separate callbacks per subscribed topic)
 def on_message(client, userdata, message):
     print('Received message: "' + str(message.payload) + '" on topic "' + message.topic + '" with QoS ' + str(message.qos))
-    ctr = ctr + 1
-    print(ctr)
+    print('Publishing message: "'+ str(float(message.payload)+1))
+    client.publish('group88/test', float(message.payload) + 1, qos=1)
+    time.sleep(1)
+    if (float(message.payload)>=20):
+        client.loop_stop()
+        client.disconnect()
 # 1. create a client instance.
 client = mqtt.Client()
 # add additional client options (security, certifications, etc.)
