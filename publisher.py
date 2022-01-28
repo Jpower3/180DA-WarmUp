@@ -10,7 +10,7 @@ def on_connect(client, userdata, flags, rc):
 # reconnect then subscriptions will be renewed.
 # client.subscribe("ece180d/test")
 # The callback of the client when it disconnects.
-    client.subscribe('group8888/test', qos=1)
+    client.subscribe('group88/test', qos=1)
 def on_disconnect(client, userdata, rc):
     if rc != 0:
         print('Unexpected Disconnect')
