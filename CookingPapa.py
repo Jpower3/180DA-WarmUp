@@ -1,4 +1,5 @@
 from pynput import keyboard
+import time as t 
 cutting = 1
 stove = -1
 position = 0
@@ -6,7 +7,13 @@ in_cooking = 0
 spins = 0
 chops = 0
 key_prev = keyboard.Key.up
+ideal_spin = 1
+ideal_cut = 0.5
+start = t.time()
+end = t.time()
+diff = end - start
 def on_press(key):
+    #global variables declared
     global position
     global stove
     global cutting
@@ -14,6 +21,11 @@ def on_press(key):
     global spins
     global key_prev
     global chops
+    global start
+    global end
+    global diff
+    
+    #choose which board
     if in_cooking == 0:
         if key == keyboard.Key.left:
             position = stove
@@ -24,9 +36,12 @@ def on_press(key):
         else:
             position = 0
         print('press left to go to stove, right to go to chopping board')
+ 
+    #given cooking = 1, stove
     elif position == stove:
         if key == keyboard.Key.up:
             key_prev = keyboard.Key.up
+            start = t.time()
             return False
         elif key == keyboard.Key.right:
             if key_prev == keyboard.Key.up:
@@ -43,11 +58,25 @@ def on_press(key):
         elif key == keyboard.Key.left:
             if key_prev == keyboard.Key.down:
                 key_prev = keyboard.Key.left
-                spins = spins + 1
+                end = t.time()
+                diff = end-start
+                #timing of spins
+                if diff < ideal_spin * 1.1 and diff > ideal_spin * 0.9:
+                    spins = spins + 1.5
+                    print("Good job! Perfect Spin!")
+                elif diff < ideal_spin *1.2 and diff > ideal_spin * 0.8:
+                    spins = spins + 1
+                    print("Okay job! Great Spin!")
+                elif diff < ideal_spin * 2 and diff > ideal_spin *0.5:
+                    spins = spins - 0.5
+                    print("That was not a great spin, try to equalize your pace!")
+                print(spins)
                 return False
             else:
                 print('wrong key')
-                return False      
+                return False
+
+    #given cooking = 1, cutting      
     elif position == cutting:
         if key == keyboard.Key.up:
             key_prev = keyboard.Key.up
