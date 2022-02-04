@@ -166,9 +166,9 @@ def on_press(key):
             print('wrong key')
             return False
 #
-#
 #GAME STARTS HERE
-#
+#GAME STARTS HERE
+#GAME STARTS HERE
 #
 client = mqtt.Client()
 # add additional client options (security, certifications, etc.)
@@ -186,7 +186,8 @@ client.loop_start()
 while(flag_player==0):
     pass
 t.sleep(1)
-start_game = t.time()    
+start_game = t.time()  
+print('Welcome to Cooking Papa! Chop and stir faster than your opponent!')  
 while(in_cooking != 2):
     print('press left to go to stove, right to go to chopping board')
     with keyboard.Listener(on_press=on_press) as listener:
