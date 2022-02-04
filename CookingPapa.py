@@ -1,6 +1,7 @@
 from pynput import keyboard
 import time as t 
 import paho.mqtt.client as mqtt
+#globals
 cutting = 1
 stove = -1
 position = 0
@@ -21,6 +22,9 @@ flag_player = 0
 flag_opponent = 0
 flag_received = 0
 score = 0
+#globals
+
+
 #mqtt interaction
 def on_connect(client, userdata, flags, rc):
     global flag_player
@@ -56,8 +60,10 @@ def on_message(client, userdata, message):
         client.publish(str(flag_opponent)+'Team8', float(score), qos=1)
         if 1000-float(score) > 1000-float(flag_received):
             print('You are better than the other idiot sandwich. Congration.')
+            print('Your score: '+str(float(score))+'\n'+"Your opponent's score: " + str(float(flag_received)))
         else:
             print('You lost. Try a little harder next time would ya?')
+            print('Your score: '+str(float(score))+'\n'+"Your opponent's score: " + str(float(flag_received)))
         client.loop_stop()
         client.disconnect()
 def on_press(key):
